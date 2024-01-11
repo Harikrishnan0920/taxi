@@ -2,8 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-
+import { ToastContainer } from "react-toastify";
 import Axios from "axios";
+import "react-toastify/dist/ReactToastify.css"; 
 
 Axios.interceptors.request.use(
   function (config) {
@@ -63,6 +64,7 @@ Axios.interceptors.response.use(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+  <ToastContainer autoClose={2000}     />
     <App />
   </React.StrictMode>,
 )

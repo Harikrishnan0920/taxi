@@ -1,22 +1,26 @@
-import "../src/styles/heroComponent.scss";
-import "../src/styles/sider.scss";
+import "../src/styles/Allcomponent.scss";
 
-import Movies from "./components/Movies";
-import HeroComponent from "./components/HeroComponent";
+
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Sider from "./components/Sider";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import UserDashboard from "./components/UserDashboard";
+import DriverDashboard from "./components/DriverDashboard";
+
 function App() {
   return (
     <>
       <BrowserRouter>
         <div className="hero-sider">
-          <Sider />
         </div>
         <Routes>
-          <Route path="*" element={ <HeroComponent />} />
-          <Route path="/" element={<HeroComponent />} />
-          <Route path="/search" element={<Movies />} />
+          <Route path="*" element={<Login/>} />
+          <Route path="/" element={<Login/>} />
+          <Route path="/register" element={<Register/>} />
+          <Route path="/user-dashboard" element={<UserDashboard/>} />
+          <Route path="/driver-dashboard" element={<DriverDashboard/>} />
+         
         </Routes>
       </BrowserRouter>
 
