@@ -35,6 +35,7 @@ const Login = () => {
             .then(async (resp) => {
               if (resp.data.statusCode === 200) {
                 sessionStorage.setItem("token",resp.data.token)
+                sessionStorage.setItem("uID",resp.data.userid)
                 switcher=='customer'?
                 Navigate("/user-dashboard"):Navigate("/driver-dashboard")
                 

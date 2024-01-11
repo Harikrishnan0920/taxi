@@ -13,6 +13,7 @@ const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showconfirmPassword, setShowConfirmPassword] = useState(false);
     const [switcher,setSwitch]=useState("customer")
+    const [vehicle,setVehicle]=useState(null)
     const Navigate = useNavigate();
 
 
@@ -41,7 +42,8 @@ const Register = () => {
                 email,
                 Name:firstname,
                 password,
-                role:switcher
+                role:switcher,
+                Vehicleno:vehicle
               }
             );
       
@@ -49,6 +51,7 @@ const Register = () => {
             if (password === ConfirmPassword) {
               if (response.data.statusCode === 200) {
                 sessionStorage.setItem("token",response.data.token)
+                sessionStorage.setItem("uID",response.data.userid)
                 switcher=='customer'?
                 Navigate("/user-dashboard"):Navigate("/driver-dashboard")
                 
@@ -137,7 +140,27 @@ const Register = () => {
               />
             </div>
 
-           
+           {switcher=='driver'&&<div className=" mb-3">
+              <label
+                for="FirstName"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Vehicle no *
+              </label>
+
+              <input
+                type="text"
+                name=""
+                id=""
+                placeholder="Vehicle no"
+                value={vehicle}
+                onChange={(e) => setVehicle(e.target.value)}
+                className="w-full px-3 py-3  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                autofocus
+                autocomplete
+                required
+              />
+            </div> }      
 
             <div className="mb-3">
               <label

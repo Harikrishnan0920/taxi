@@ -781,16 +781,23 @@ font-size: 14px;
   background-color: rgb(214, 214, 80);
 
 }
-.react-time-picker {
-  width: 150px; /* Adjust the width as needed */
-  font-size: 16px; /* Adjust the font size as needed */
+
+.messageBox {
+  background: cadetblue;
+  height: 300px;
+  width: 250px;
+  overflow-y: auto; /* Enable vertical scrollbar when needed */
+  border-radius: 11px;
+  position: fixed;
+  top: 297px;
+  right: 40px;
 }
 
-.react-time-picker__inputGroup {
-  border: 1px solid #ccc; /* Adjust the border color as needed */
+.message {
+  background-color: darkgrey;
+  border: black 1px solid;
   border-radius: 5px;
-}
-
-.react-time-picker__inputGroup__input {
-  color: #333; /* Adjust the text color as needed */
+  margin-bottom: 5px; /* Add space between messages */
+  padding: 5px; /* Add padding for better visual appearance */
+  width: 100%; /* Use 100% width */
 }
