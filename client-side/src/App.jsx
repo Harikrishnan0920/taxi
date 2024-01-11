@@ -1,6 +1,6 @@
 import "../src/styles/heroComponent.scss";
 import "../src/styles/sider.scss";
-import "./App.css";
+
 import Movies from "./components/Movies";
 import HeroComponent from "./components/HeroComponent";
 
