@@ -12,7 +12,7 @@ res.json({message:"api working successfully"})
 
 
 Router.post('/user',async (req,res)=>{
-let {email,password,role}=req.body
+let {email,password,role,Name}=req.body
 
 
 let matchEmail=await user.findOne({email})
@@ -22,16 +22,20 @@ console.log('dfd',matchEmail)
 if(!matchEmail){
 
     let hashedpwd= await bcrypt.hash(password,10)
-    let usersave=new user({email,password:hashedpwd,role:role})
+    let usersave=new user({email,password:hashedpwd,role:role,Name:Name})
+   
     usersave.save()
+    let userRecord = await user.findOne({email})
+    let token= await generatedtoken(userRecord.id)
 
-   return res.json({message:"signed up successfully",statusCode:200})
+
+   return res.json({message:"signed up successfully",statusCode:200,token:token})
 
 
 
 
 }
-return res.json({message:"User already exists"})
+return res.json({message:"User already exists",statusCode:400})
 
 
 })
@@ -59,7 +63,7 @@ return res.json({message:'log in successful',statusCode:200,token:token})
 
     
 }
-res.json({message:"Incorrect password"})
+res.json({message:"Incorrect password",statusCode:402})
 
 })
 
