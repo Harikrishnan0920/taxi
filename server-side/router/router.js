@@ -118,7 +118,7 @@ Router.get('/bookedorgins', async (req, res) => {
       const { origin } = req.params;
   
       // Find bookings with the specified origin
-      const bookings = await BookingInfo.find({ origin });
+      const bookings = await BookingInfo.find({ orgin:origin });
   
       // Extract user IDs from the bookings
       const userIds = bookings.map((booking) => booking.userId);
@@ -126,7 +126,7 @@ Router.get('/bookedorgins', async (req, res) => {
       // Find users with the extracted IDs
       const users = await user.find({ _id: { $in: userIds } });
   
-      res.json({data:users,message:"successfully fetched",statusCode:200});
+      res.json({data:users.concat(bookings),message:"successfully fetched",statusCode:200});
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
