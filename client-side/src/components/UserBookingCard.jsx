@@ -37,7 +37,7 @@ console.log('sdsd',user);
         onRequestClose={closeModal}
         contentLabel="Chat Modal"
       >
-        <ChatBox roomId={user.userId} firstmessage={`Booking accepted with amount ${amount} my driver id is ${userData?._id} and my driving license ${userData?.Vehicleno}`}  driverData={userData} CustomerId={user.userId}/>
+        <ChatBox roomId={user.userId} firstmessage={`Booking accepted with amount ${amount} my driver id is ${userData?._id} and my driving license ${userData?.Vehicleno}`}  driverData={userData} CustomerId={user.userId} setModalOpen={setModalOpen}/>
       </Modal>
 
 

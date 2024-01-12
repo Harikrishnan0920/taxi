@@ -6,7 +6,7 @@ const generatedtoken=require("../token generation/token")
 const verified=require("../middleware/middle")
 const axios = require('axios');
 const BookingInfo = require("../model/booking")
-
+const mongoose=require("mongoose")
 
 
 Router.get('/test',(req,res)=>{
@@ -103,8 +103,9 @@ Router.post('/book', async (req, res) => {
 
 Router.get('/bookedorgins', async (req, res) => {
     try {
-      const uniqueOrigins = await BookingInfo.distinct('orgin');
-      res.json({message:"successfully fetched",statusCode:200,data:uniqueOrigins});
+      const uniqueOrigins = await BookingInfo.distinct('orgin', { cancelled: { $ne: 'yes' } });
+     
+     res.json({message:"successfully fetched",statusCode:200,data:uniqueOrigins});
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -158,8 +159,11 @@ Router.get('/bookedorgins', async (req, res) => {
       }
   
       // Fetch booking details from the Booking collection based on the userId
-      const bookingsdetails = await BookingInfo.find({ userId });
-  
+      const bookingsdetails = await BookingInfo.find({
+        userId,
+        cancelled: { $ne: 'yes' },
+    });
+
       res.json({ data:[Userdata, bookingsdetails], message: 'User details fetched successfully', statusCode: 200 });
     } catch (error) {
       console.error(error);
@@ -168,13 +172,13 @@ Router.get('/bookedorgins', async (req, res) => {
   });
   
   
-  Router.put('/updateBooking/:bookingId', async (req, res) => {
+  Router.put('/updateBooking/:userId', async (req, res) => {
     try {
-      const bookingId = req.params.bookingId;
+      const userId = req.params.bookingId;
       const { bookedby } = req.body;
   
       // Find the booking by ID
-      const booking = await BookingInfo.findById({userId:bookingId});
+      const booking = await BookingInfo.findOne(userId);
 
       if (!booking) {
         return res.status(404).json({ error: 'Booking not found' });
@@ -198,8 +202,37 @@ Router.get('/bookedorgins', async (req, res) => {
   });
   
 
+ Router.put('/updatecancel/:bookingId', async (req, res) => {
+    try {
+      const userId = req.params.bookingId;
+  
+      // Find the booking by ID
+      const booking = await BookingInfo.findOne({
+        userId,
+        cancelled: { $ne: 'yes' },
+    });
 
-
+      if (booking.length==0) {
+        return res.status(404).json({ error: 'Booking not found' });
+      }
+  
+      // Update the bookedby field
+      booking.cancelled = 'yes';
+  
+      // Save the updated booking
+      const updatedBooking = await booking.save();
+  
+      res.json({
+        booking: updatedBooking,
+        message: 'cancel updated successfully',
+        statusCode: 200,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
 
 
 

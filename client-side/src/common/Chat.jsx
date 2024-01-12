@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { Api_url } from './env_variable';
 
-const ChatBox = ({ roomId ,firstmessage,booked,setBooked,driverData,CustomerId}) => {
+const ChatBox = ({ roomId ,firstmessage,booked,setBooked,driverData,CustomerId,handleDeleteCustomer,setModalOpen}) => {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -23,6 +23,7 @@ const ChatBox = ({ roomId ,firstmessage,booked,setBooked,driverData,CustomerId})
       // Handle incoming messages
       if(booked && data.includes("Booking accepted")){
         setBooked(true)
+        updateBooking()
       }
       
 
@@ -67,11 +68,24 @@ const ChatBox = ({ roomId ,firstmessage,booked,setBooked,driverData,CustomerId})
   };
 
 
-
+  let removeCustomer = async () => {
+    if (driverData) {
+      return setModalOpen(false);
+    }
+  
+    setNewMessage("**Customer Cancelled Booking**");
+  
+    // Send the message
+    await sendMessage();
+  
+    // After the message is sent, delete the customer
+    await handleDeleteCustomer();
+  };
 
 console.log(firstSend);
   return (
     <div className="chat-box">
+      <button onClick={()=>{removeCustomer()}}>cancel booking</button>
       <div className="messages">
         {messages.map((message, index) => (
           <div key={index}>{message.text}</div>

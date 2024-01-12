@@ -3,6 +3,7 @@ import { Api_url } from '../common/env_variable';
 import axios from "axios";
 import UserBookingCard from './UserBookingCard';
 import { fetchUserDetails } from '../common/commonFuntions';
+import withAuth from '../common/withauth';
 
 const DriverDashboard = () => {
   
@@ -123,4 +124,4 @@ console.log(userData)
   )
 }
 
-export default DriverDashboard
+export default withAuth(DriverDashboard)

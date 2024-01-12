@@ -46,17 +46,11 @@ fetchUserDetails(SetUserData)
       timer = setTimeout(() => {
         timer = null;
         func.apply(context, args);
-      }, 2000);
+      }, 1000);
     };
   };
 
-  const handleChangeTime = () => {
-    console.log("handleChangeTime", time)
-    setBookingInfo((prevBookingInfo) => ({
-      ...prevBookingInfo,
-      pickupTime: time,
-    }));
-  }
+
 
   const changeOriginDropDown = (ele, e) => {
     e.preventDefault()
@@ -116,6 +110,7 @@ fetchUserDetails(SetUserData)
           if (resp.data.statusCode === 200) {
             sessionStorage.setItem("token",resp.data.token)
              setWaittime(true)
+             fetchUserDetails(SetUserData)
         
           } else{
             toast.error(resp.data.message)
@@ -124,14 +119,36 @@ fetchUserDetails(SetUserData)
     } catch (error) {
         console.log("err", error);
       }
+};
 
+const handleDelete = async () => {
+  try {
 
+    await axios.put(`${Api_url}/updatecancel/${userData[0]?._id}`).then((res)=>{
+     if(res.data.statusCode==200){
+      fetchUserDetails(SetUserData)
+     } else if(res.data.statusCode==404){
+      setWaittime(false)
+      SetUserData([])
+     }
+    })
+   
+    console.log('Booking deleted successfully');
+  } catch (error) {
+    console.error('Error deleting booking:', error.message);
+  } finally {
+  }
+};
 
-  };
 let  logOut=()=>{
 sessionStorage.clear()
 Navigate("/")
   }
+
+
+
+
+  console.warn(userData)
   return <div className='user_dashboard'>
 <div className="container">
 <div className='user_dashbg'>
@@ -201,14 +218,15 @@ Navigate("/")
          </div>
 
          <div className='col-md-12 justify_content_center displayFlex p-3'> 
-         <button className=' ' onClick={handleBookNow}>Book Now</button>
+         {userData[1]?.length==0?<button className=''onClick={handleBookNow}>Book now</button>:<div>Booking on Process...</div>}
          </div>
         </div>
       </div>
-      {waitTime&&<div className='messageBox'>
-    <ChatBox roomId={userData[0]?._id} booked={booked} setBooked={setBooked} />
+
+      {userData?.[1]?.length!=0?<div className='messageBox'>
+    <ChatBox roomId={userData[0]?._id} booked={booked} setBooked={setBooked} handleDeleteCustomer={handleDelete} />
   {/* Add more message divs as needed */}
-</div>}
+</div>:<></>}
 </div>
     </div>
   
