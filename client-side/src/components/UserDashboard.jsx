@@ -123,18 +123,18 @@ let  logOut=()=>{
 sessionStorage.clear()
 Navigate("/")
   }
-  return <div className='dashboard'>
-<div>
-<button onClick={()=>{logOut()}}> LogOut</button>
-{waitTime&&<div className='messageBox'>
-      <div className='message'>lets wait till we get a ride</div>
-  <div style={{backgroundColor: "rgb(155, 123, 26)"}} className='message'>No user have arived</div>
-  {/* Add more message divs as needed */}
-</div>}
+  return <div className='user_dashboard'>
+<div className="container">
+<div className='user_dashbg'>
+<div className='displayFlex justify_content_end'>
+<button className='logoutbtn' onClick={()=>{logOut()}}> Logout</button>
+</div>
+
 
         {/* Booking Form */}
-        <div>
-          <label>
+        <div className='customerforms  row'>
+         <div className='col-md-4 forminput'>
+         <label className='flexDirection_column displayFlex'>
             Origin:
             <input
               type="text"
@@ -143,6 +143,7 @@ Navigate("/")
             onChange={(e) => { optimizedFn(e.target); handleInputChange(e) }}
             />
           </label>
+         
         {originPlaces && originPlaces?.length ?
           <div className='dropdown'>
             {originPlaces && originPlaces.length ? originPlaces.map((place, idx) => {
@@ -153,7 +154,9 @@ Navigate("/")
             }) : ""}
           </div>
           : ""}
-          <label>
+         </div>
+         <div className='col-md-4 forminput'>
+         <label className='flexDirection_column displayFlex'>
             Destination:
             <input
               type="text"
@@ -173,8 +176,10 @@ Navigate("/")
             }) : ""}
           </div>
           : ""}
+         </div>
 
-          <label>
+         <div className='col-md-4 forminput'>
+         <label className='flexDirection_column displayFlex'>
             Pickup Time:
           {/* <input
               type="text"
@@ -184,10 +189,19 @@ Navigate("/")
             /> */}
           <TimePicker onChange={changeTime} value={time} />
           </label>
+         </div>
 
-          <button onClick={handleBookNow}>Book Now</button>
+         <div className='col-md-12 justify_content_center displayFlex p-3'> 
+         <button className=' ' onClick={handleBookNow}>Book Now</button>
+         </div>
         </div>
       </div>
+      {waitTime&&<div className='messageBox'>
+      <div className='message'>Let's wait till we get a ride!</div>
+  <div className='lightmessage'>No user have arived</div>
+  {/* Add more message divs as needed */}
+</div>}
+</div>
     </div>
   
 };

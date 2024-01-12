@@ -49,19 +49,37 @@ const Login = () => {
           }
         };
     return (
-        <section className=" container-md PaddingTop">
+      <div className='bg_img'>
+          <section className=" container-md PaddingTop">
     <div className="role-switch-container">
-      <h2>{switcher.toUpperCase()}</h2>
+      {/* <h2>{switcher.toUpperCase()}</h2>
       <span >Wanna Switch to  {switcher === 'driver' ? 'Customer' : 'Driver'}</span>
-      <p onClick={handleSwitch}>
+      <p >
         <span>Switch</span>
-      </p>
+
+      
+      </p> */}
     </div>
 
-        <h5 className="text-center fs-2 fw-medium mb-4">Login</h5>
+    <div className="p-3">
+    <div class="switches-container" >
+    <input type="radio" id="customer" name="switchPlan" value="Customer" checked />
+    <input type="radio" id="driver" name="switchPlan" value="Driver " checked />
+    <label for="customer" onClick={handleSwitch}>Customer</label>
+    <label for="driver" onClick={handleSwitch}>Driver</label>
+    <div class="switch-wrapper">
+      <div class="switch">
+        <div>Customer</div>
+        <div>Driver</div>
+      </div>
+    </div>
+  </div>
+    </div>
+
+      
   
-        <div className="row d-flex gap-4 justify-content-center mb-5">
-          <div className="col-md-5 border-1 p-4 order-md-0 order-1">
+        <div className="row d-flex mb-5 formpage">
+          <div className="col-md-6 border-1 p-4 order-md-0 order-1 login_bg">
             <h4 className="fs-3 fw-medium mb-3">Register</h4>
             <h5 className="fs-6 fw-medium mb-3">
               Don’t already have an account please register here
@@ -71,7 +89,7 @@ const Login = () => {
             </Link>
           </div>
   
-          <div className="col-md-5 border-1 p-4 order-md-1 order-0">
+          <div className="col-md-6 border-1 p-4 order-md-1 order-0 register_bg">
             <h6 className="fs-5 fw-medium">Login</h6>
             <form className=" mt-4" onSubmit={handleLogin}>
               <div>
@@ -83,21 +101,21 @@ const Login = () => {
                   placeholder="Enter Email Address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-3 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                  className="w-full px-3 py-3 mt-2 border"
                   autofocus
                   autocomplete
                   required
                 />
               </div>
   
-              <div className="mb-3 mt-3">
+              <div className="mb-3 mt-3 ">
                 <label
                   for="Password"
                   className="block mb-2 text-sm font-medium text-gray-700"
                 >
-                  Password *
+                  Password*
                 </label>
-                <div className="border d-flex justify-content-between align-items-center pe-4 ">
+                <div className="border d-flex justify-content-between align-items-center pe-4 password_input">
                   <input
                     type={showPassword ? "text" : "password"}
                     className="px-3 py-3 w-100 border-0 focus:outline-none"
@@ -191,6 +209,7 @@ const Login = () => {
           </div>
         </div>
       </section>
+      </div>
   )
 }
 

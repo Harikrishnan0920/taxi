@@ -71,19 +71,34 @@ const Register = () => {
     
   return (
 
-    <div>
+    <div  className='bg_img'>
     <section className=" container-md PaddingTop">
-    <div className="role-switch-container">
+    {/* <div className="role-switch-container">
       <h2>{switcher.toUpperCase()}</h2>
       <span >Wanna Switch to  {switcher === 'driver' ? 'Customer' : 'Driver'}</span>
       <p onClick={handleSwitch}>
         <span>Switch</span>
       </p>
-    </div>
-      <h5 className="text-center fs-2 fw-medium mb-4">Register</h5>
+    </div> */}
 
-      <div className="row d-flex gap-4 justify-content-center mb-5">
-        <div className="col-md-5 border-1 p-4  order-md-0 order-1">
+    <div className="p-3">
+    <div class="switches-container" >
+    <input type="radio" id="driver" name="switchPlan" value="Driver" checked/>
+    <input type="radio" id="customer" name="switchPlan" value="Customer"  checked/>
+    <label for="driver" onClick={handleSwitch}>Driver</label>
+    <label for="customer" onClick={handleSwitch}>Customer</label>
+    <div class="switch-wrapper">
+      <div class="switch">
+        <div>Driver</div>
+        <div>Customer</div>
+      </div>
+    </div>
+  </div>
+    </div>
+    
+
+      <div className="row d-flex  justify-content-center mb-5 formpage">
+        <div className="col-md-6 border-1 p-4  order-md-0 order-1 login_bg">
           <h4 className="fs-3 fw-medium mb-4">Login</h4>
           <h5 className="fs-6 fw-medium mb-4">
             You already have an account please sign in
@@ -93,7 +108,7 @@ const Register = () => {
           </Link>
         </div>
 
-        <div className="col-md-5 border-1 p-4 order-md-1 order-0">
+        <div className="col-md-6 border-1 p-4 order-md-1 order-0 register_bg">
           <h6 className="fs-5 fw-medium">Register</h6>
           <form onSubmit={handleSignup} className="mt-8  gap-6">
             <div className=" mb-3">
@@ -111,7 +126,7 @@ const Register = () => {
                 placeholder="Enter First Name "
                 value={firstname}
                 onChange={(e) => setfirstName(e.target.value)}
-                className="w-full px-3 py-3  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                className="w-full px-2 py-2  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
                 autofocus
                 autocomplete
                 required
@@ -133,7 +148,7 @@ const Register = () => {
                 placeholder="Enter Email id"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-3  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                className="w-full px-2 py-2  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
                 autofocus
                 autocomplete
                 required
@@ -155,7 +170,7 @@ const Register = () => {
                 placeholder="Vehicle no"
                 value={vehicle}
                 onChange={(e) => setVehicle(e.target.value)}
-                className="w-full px-3 py-3  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                className="w-full px-2 py-2  mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
                 autofocus
                 autocomplete
                 required
@@ -169,10 +184,10 @@ const Register = () => {
               >
                 Password *
               </label>
-              <div className="border d-flex justify-content-between align-items-center pe-4 ">
+              <div className="border d-flex justify-content-between align-items-center pe-4 password_input">
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="px-3 py-3 w-100 border-0 focus:outline-none"
+                  className="px-2 py-2 w-100 border-0 focus:outline-none"
                   name="password"
                   id=""
                   placeholder="Enter Password"
@@ -208,10 +223,10 @@ const Register = () => {
               >
                 Confirm Password *
               </label>
-              <div className=" border d-flex justify-content-between align-items-center pe-4">
+              <div className=" border d-flex justify-content-between align-items-center pe-4 password_input">
                 <input
                   type={showconfirmPassword ? "text" : "password"}
-                  className="px-3 py-3 w-100 border-0 focus:outline-none"
+                  className="px-2 py-2 w-100 border-0 focus:outline-none"
                   name="password"
                   id=""
                   placeholder="Confirm Password"

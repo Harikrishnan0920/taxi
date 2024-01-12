@@ -8,7 +8,7 @@
 .heroComponent-container {
     display: flex;
 
-    .hero-sider {}
+    // .hero-sider {}
 
     .hero-content {
         width: 93vw;
@@ -167,9 +167,10 @@
     border: 1px solid transparent;
     padding: 0.6em 1.2em;
     font-size: 1em;
+    color: #000;
     font-weight: 500;
     font-family: inherit;
-    background-color: #1a1a1a;
+    background-color: #D7d523;
     cursor: pointer;
     transition: border-color 0.25s;
   }
@@ -783,16 +784,6 @@ font-size: 14px;
 
 }
 
-.messageBox {
-  background: cadetblue;
-  height: 300px;
-  width: 250px;
-  overflow-y: auto; /* Enable vertical scrollbar when needed */
-  border-radius: 11px;
-  position: fixed;
-  top: 297px;
-  right: 40px;
-}
 
 .message {
   background-color: darkgrey;
@@ -803,15 +794,298 @@ font-size: 14px;
   width: 100%; /* Use 100% width */
 }
 
-.C-list{
-  background-color: burlywood;
-    border-radius: 20px;
+
+
+
+:root {
+  --switches-bg-color: #D7d523;
+  --switches-label-color: #000000 ;
+  --switch-bg-color: white;
+  --switch-text-color: #000000 ;
 }
 
-.CustomersContainer{
-  overflow: scroll;
-  width: auto;
-  height: 147px;
-  overflow-x: hidden;
 
+
+.switches-container {
+  width: 16rem;
+  position: relative;
+  display: flex;
+  padding: 0;
+  position: relative;
+  background: var(--switches-bg-color);
+  line-height: 3rem;
+  border-radius: 3rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* input (radio) for toggling. hidden - use labels for clicking on */
+.switches-container input {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+}
+
+/* labels for the input (radio) boxes - something to click on */
+.switches-container label {
+  width: 50%;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  cursor: pointer;
+  color: var(--switches-label-color);
+}
+
+/* switch highlighters wrapper (sliding left / right) 
+  - need wrapper to enable the even margins around the highlight box
+*/
+.switch-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  padding: 0.15rem;
+  z-index: 3;
+  transition: transform .5s cubic-bezier(.77, 0, .175, 1);
+  /* transition: transform 1s; */
+}
+
+/* switch box highlighter */
+.switch {
+  border-radius: 3rem;
+  background: var(--switch-bg-color);
+  color: #000 !important;
+  height: 100%;
+}
+
+/* switch box labels
+  - default setup
+  - toggle afterwards based on radio:checked status 
+*/
+.switch div {
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  display: block;
+  color: var(--switch-text-color) ;
+  transition: opacity .2s cubic-bezier(.77, 0, .175, 1) .125s;
+  will-change: opacity;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* slide the switch box from right to left */
+.switches-container input:nth-of-type(1):checked~.switch-wrapper {
+  transform: translateX(0%);
+}
+
+/* slide the switch box from left to right */
+.switches-container input:nth-of-type(2):checked~.switch-wrapper {
+  transform: translateX(100%);
+}
+
+/* toggle the switch box labels - first checkbox:checked - show first switch div */
+.switches-container input:nth-of-type(1):checked~.switch-wrapper .switch div:nth-of-type(1) {
+  opacity: 1;
+}
+
+/* toggle the switch box labels - second checkbox:checked - show second switch div */
+.switches-container input:nth-of-type(2):checked~.switch-wrapper .switch div:nth-of-type(2) {
+  opacity: 1;
+}
+
+
+.login_bg{
+  background: rgb(37, 37, 37,0.8);
+  color: #ffffff;
+  border-radius: 10px 0px 0px 10px;
+}
+.register_bg{
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 10px;
+  margin-left: -10px;
+}
+
+
+.formpage{
+  border: 2px solid rgb(215, 213, 35,0.2);
+  border-radius: 10px;
+  padding: 10px;
+}
+.formpage input{
+  background: #ffffff;
+  color: #252525;
+}
+.formpage form div{
+  flex-direction: column;
+  display: flex;
+}
+.password_input{
+  display: flex;
+  flex-direction: row !important;
+}
+.password_input input{
+outline: none;
+}
+.bg_img{
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(../assets/car_bg.jpg) top no-repeat;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.formpage input::placeholder{
+font-size: 14px;
+}
+
+.user_dashboard{
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(../assets/customer_bg.jpg) top no-repeat;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+.user_dashbg{
+  border: 1px solid #D7d523;
+  border-radius: 10px;
+  padding: 30px;
+  background: #ffffff;
+  height: 500px;
+  min-height: 500px;
+  max-height: 500px;
+  width: 100%;
+}
+.logoutbtn{
+background: #fff;
+border: 1px solid #D7d523;
+color: #252525;
+margin-bottom: 30px;
+}
+.customerforms input{
+background: unset !important;
+color: #000;
+border-radius: 5px;
+padding: 10px;
+border: 1px solid #cccccc ;
+}
+.react-time-picker__wrapper{
+  border: 1px solid #cccccc !important;
+  background: unset;
+color: #000;
+border-radius: 5px;
+padding: 10px;
+}
+
+.react-time-picker__inputGroup__input{
+  background: unset;
+  color: #000;
+  border-radius: none;
+  padding: 0px 10px 0px 10px !important;
+  border: 0 !important;
+  text-align: center;
+  min-width: 18px;
+  max-width: 18px;
+}
+.react-time-picker__inputGroup__divider ,.react-time-picker__inputGroup__leadingZero{
+   
+  border: unset !important;
+
+}
+.react-time-picker__inputGroup__input:invalid{
+  background: unset !important;
+}
+.react-time-picker--enabled{
+  outline: none !important;
+}
+.react-time-picker__inputGroup__amPm{
+  max-width: unset;
+}
+
+.dropdown-card{
+  background:  #e0e0e0;
+  margin-top: 5px;
+  padding: 5px;
+  border-bottom: 1px solid #777777;
+}
+.dropdown-card:hover{
+  background: #D7d523;
+  cursor: pointer;
+}
+.dropdown{
+  max-height: 200px;
+  min-height: 200px;
+  overflow-x: scroll;
+  overflow-x: hidden;
+}
+
+/* width */
+.dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+.dropdown::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+ 
+/* Handle */
+.dropdown::-webkit-scrollbar-thumb {
+  background: #252525; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.dropdown::-webkit-scrollbar-thumb:hover {
+  background: #D7d523; }
+
+  .messageBox{
+    background: #ffffff;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 0px 00px 20px 0px;
+  }
+  .message{
+    background: #252525;
+    border: unset;
+    border-radius: 0px;
+    padding: 20px 10px;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  .lightmessage{
+    color: #cccccc;
+    background: none;
+  text-align: center;
+  }
+  
+.messageBox {
+  height: 300px;
+  min-height: 300px;
+  max-height: 300px;
+  width: 300px;
+  overflow-y: auto; /* Enable vertical scrollbar when needed */
+  border-radius: 10px;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  -webkit-animation: bounce .4s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+
+
+
+
+@-webkit-keyframes bounce {
+  0% {
+    
+  }
+  100% {
+    transform:translateY(-20px);
+  }
 }
