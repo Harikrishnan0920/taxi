@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Api_url } from '../common/env_variable';
 import axios from "axios";
+import UserBookingCard from './UserBookingCard';
 
 const DriverDashboard = () => {
   
    
- 
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [places, setPlaces] = useState(null);
   const [filterplaces,SetFilterPlaces]=useState(null)
@@ -22,6 +24,18 @@ const DriverDashboard = () => {
   })
   .catch((error) => console.error(error));
  }
+
+ const handleUserClick = (user) => {
+ 
+  setSelectedUser(user);
+};
+
+const handlePickupTimeAccepted = () => {
+  // Clear the selected user when pick-up time is accepted
+  setSelectedUser(null);
+
+  // Optionally, refetch the user list or update the UI as needed
+};
 
  useEffect(()=>{
   AvailableBookingFrom()
@@ -46,7 +60,7 @@ const DriverDashboard = () => {
     await axios.get(Api_url+'/usersByOrigin/'+origin)
     .then((response) =>{
     if(response.data.statusCode==200){
-      setCustomers(data)
+      setCustomers(response.data.data)
    }
     
   })
@@ -73,18 +87,27 @@ const DriverDashboard = () => {
       </div><button onClick={()=>{Viewcustomers(searchInput)}}>View Customers</button>
 
 
-     {customers&&<div>
+     {customers?<div>
       <h3>Users from {currentorgin}</h3>
-      <ul>
+   
+        <div className='CustomersContainer'>
         {customers.map((user) => (
-          <li key={user._id}>
-            <p>Email: {user.email}</p>
+          <div className='C-list' onClick={() => handleUserClick(user)}>
+            <p>TravelID:{user._id}</p>
             <p>Name: {user.Name}</p>
-            {/* Add more user information as needed */}
-          </li>
+            <p>Destination:{user.destination}</p>
+            <p>Pick Up time:{user.pickupTime}</p>
+            </div>
         ))}
-      </ul>
-    </div>}
+        </div>
+    
+    </div>:<div className='CustomersContainer'><div className='C-list'>No Travelers in this locations</div></div>}
+    {selectedUser && (
+        <UserBookingCard
+          user={selectedUser}
+          onPickupTimeAccepted={handlePickupTimeAccepted}
+        />
+      )}
 
     </div>
     </div>

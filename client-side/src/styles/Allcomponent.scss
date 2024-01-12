@@ -802,3 +802,16 @@ font-size: 14px;
   padding: 5px; /* Add padding for better visual appearance */
   width: 100%; /* Use 100% width */
 }
+
+.C-list{
+  background-color: burlywood;
+    border-radius: 20px;
+}
+
+.CustomersContainer{
+  overflow: scroll;
+  width: auto;
+  height: 147px;
+  overflow-x: hidden;
+
+}
