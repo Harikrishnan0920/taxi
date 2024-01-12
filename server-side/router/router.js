@@ -117,21 +117,89 @@ Router.get('/bookedorgins', async (req, res) => {
     try {
       const { origin } = req.params;
   
-      // Find bookings with the specified origin
       const bookings = await BookingInfo.find({ orgin:origin });
   
-      // Extract user IDs from the bookings
       const userIds = bookings.map((booking) => booking.userId);
   
-      // Find users with the extracted IDs
       const users = await user.find({ _id: { $in: userIds } });
   
-      res.json({data:users.concat(bookings),message:"successfully fetched",statusCode:200});
+      const userBookingInfo = users.map((user) => {
+        const booking = bookings.find((booking) => booking.userId.toString() === user._id.toString());
+        return {
+          userId: user._id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          bookingInfo: {
+            origin: booking.origin,
+            destination: booking.destination,
+            pickupTime: booking.pickupTime,
+          },
+        };
+      });
+  
+      res.json({ data: userBookingInfo, message: 'Successfully fetched', statusCode: 200 });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+
+  Router.get('/getUserDetails/:userId', async (req, res) => {
+    try {
+      const userId = req.params.userId;
+  
+      // Fetch user details from the User collection
+      const Userdata = await user.findById(userId);
+  
+      if (!Userdata) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Fetch booking details from the Booking collection based on the userId
+      const bookingsdetails = await BookingInfo.find({ userId });
+  
+      res.json({ data:[Userdata, bookingsdetails], message: 'User details fetched successfully', statusCode: 200 });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+  
+  Router.put('/updateBooking/:bookingId', async (req, res) => {
+    try {
+      const bookingId = req.params.bookingId;
+      const { bookedby } = req.body;
+  
+      // Find the booking by ID
+      const booking = await BookingInfo.findById({userId:bookingId});
+
+      if (!booking) {
+        return res.status(404).json({ error: 'Booking not found' });
+      }
+  
+      // Update the bookedby field
+      booking.bookedby = bookedby;
+  
+      // Save the updated booking
+      const updatedBooking = await booking.save();
+  
+      res.json({
+        booking: updatedBooking,
+        message: 'Booking updated successfully',
+        statusCode: 200,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+
+
+
 
 
 

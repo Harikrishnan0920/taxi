@@ -6,29 +6,34 @@ import { ToastContainer } from "react-toastify";
 import Axios from "axios";
 import "react-toastify/dist/ReactToastify.css"; 
 
+
+
+
+
+const ignoredRoutes = ['https://nominatim.openstreetmap.org'];
 Axios.interceptors.request.use(
   function (config) {
-    let div1 = document.createElement("div");
-    div1.setAttribute("id", "spinnerloader");
-   let main = `
-   <div class="preloader">
-        <div class="preloader-inner ">
+    if (!ignoredRoutes.some(route => config.url.includes(route))) {
+      let div1 = document.createElement('div');
+      div1.setAttribute('id', 'spinnerloader');
+      let main = `
+        <div class="preloader">
+          <div class="preloader-inner ">
             <div class="loader">
-        <div class="loader__filmstrip">
+              <div class="loader__filmstrip">
+              </div>
+              <p class="loader__text">
+                LOADING
+              </p>
+            </div>
+          </div>
         </div>
-        <p class="loader__text">
-            LOADING
-        </p>
-    </div>
-        </div>
- </div>
- `
-    
-    div1.innerHTML= main
-    // div1.append(main)
-  
+      `;
+
+      div1.innerHTML = main;
       document.body.appendChild(div1);
-    
+    }
+
     return config;
   },
   function (error) {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Api_url } from '../common/env_variable';
 import axios from "axios";
 import UserBookingCard from './UserBookingCard';
+import { fetchUserDetails } from '../common/commonFuntions';
 
 const DriverDashboard = () => {
   
@@ -13,6 +14,8 @@ const DriverDashboard = () => {
   const [filterplaces,SetFilterPlaces]=useState(null)
   const [customers,setCustomers]=useState(null)
   const [currentorgin,setCurrentorgin]=useState(null)
+  const [userData,SetUserData]=useState([])
+
  const AvailableBookingFrom=async ()=>{
     await axios.get(Api_url+'/bookedorgins')
     .then((response) =>{
@@ -37,8 +40,13 @@ const handlePickupTimeAccepted = () => {
   // Optionally, refetch the user list or update the UI as needed
 };
 
+
+
+console.log(userData)
+
  useEffect(()=>{
   AvailableBookingFrom()
+  fetchUserDetails(SetUserData)
  },[])
   const handleSearch = (e) => {
     const searchTerm = e.target.value.toLowerCase();
@@ -68,7 +76,7 @@ const handlePickupTimeAccepted = () => {
       }
 
 
-  console.warn(places)
+  console.warn(customers)
   return (
     <div className='dashboard'>
        <div>
@@ -92,11 +100,11 @@ const handlePickupTimeAccepted = () => {
    
         <div className='CustomersContainer'>
         {customers.map((user) => (
-          <div className='C-list' onClick={() => handleUserClick(user)}>
-            <p>TravelID:{user._id}</p>
-            <p>Name: {user.Name}</p>
-            <p>Destination:{user.destination}</p>
-            <p>Pick Up time:{user.pickupTime}</p>
+          <div  className='C-list' onClick={() => handleUserClick(user)}>
+
+            <p>TravelID:{user.userId}</p>
+            <p>Destination:{user.bookingInfo.destination}</p>
+            <p>Pick Up time:{user.bookingInfo.pickupTime}</p>
             </div>
         ))}
         </div>
@@ -106,6 +114,7 @@ const handlePickupTimeAccepted = () => {
         <UserBookingCard
           user={selectedUser}
           onPickupTimeAccepted={handlePickupTimeAccepted}
+          userData={userData[0]}
         />
       )}
 

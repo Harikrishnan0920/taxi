@@ -1,35 +1,63 @@
-const mongoose=require("mongoose")
-const express=require("express")
-require("dotenv").config()
-const routes=require("./router/router")
-const cors = require('cors');
+const mongoose = require("mongoose");
+const express = require("express");
+require("dotenv").config();
+const routes = require("./router/router");
+const cors = require("cors");
+const socketIo = require("socket.io");
+const { Server } = require("socket.io");
+const app = express();
 
-
-let app=express()
-
-
-app.use(express.json())
+app.use(express.json());
 app.use(cors());
 
-app.use('/api',routes)
-//mongo db connection
-mongoose.connect(process.env.MDB_CONNECTION,{
-useNewUrlParser:true,
-useUnifiedTopology:true
-})
+// MongoDB connection
+mongoose.connect(process.env.MDB_CONNECTION, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const database = mongoose.connection;
+
+database.on("error", (err) => console.log(err));
+
+database.on("connected", () => console.log("Database connected successfully"));
+
+// Express server
+const server = app.listen(8000, () => {
+  console.log("Listening to 8000");
+});
 
 
 
 
-const database = mongoose.connection
+const io = new Server(server, {
+    cors: {
+      origin: "http://localhost:5173",
+      methods: ["GET", "POST"],
+    },
+  });
 
-database.on("error",(err)=>console.log(err))
+// Socket.io setup
+;
 
+io.on("connection", (socket) => {
+  console.log("A user connected");
 
-database.on("connected",()=>console.log('database connected successfully'))
+  socket.on("joinRoom", (data) => {
+    const { roomId } = data;
 
+    socket.join(roomId);
+  });
 
-app.listen(8000,()=>
-{
-console.log('listening to  8000')
-})
+  socket.on("message", (data) => {
+    console.log("Received message:", data);
+
+    io.to(data.roomId).emit("message", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("A user disconnected");
+  });
+});
+
+app.use("/api", routes);

@@ -9,7 +9,7 @@ const Login = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [show, setShow] = useState(false)
-   const [switcher,setSwitch]=useState("customer")
+   const [switcher,setSwitch]=useState("")
    const Navigate = useNavigate();
 
 
@@ -17,11 +17,10 @@ const Login = () => {
         setShowPassword(!showPassword);
       };
 // /
-      const handleSwitch = () => {
-        const newSwitcher = switcher === 'driver' ? 'customer' : 'driver';
+      const handleSwitch = (newSwitcher) => {
         setSwitch(newSwitcher);
       };
-
+console.log('sd',switcher)
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -63,13 +62,13 @@ const Login = () => {
 
     <div className="p-3">
     <div class="switches-container" >
-    <input type="radio" id="customer" name="switchPlan" value="Customer" checked />
-    <input type="radio" id="driver" name="switchPlan" value="Driver " checked />
-    <label for="customer" onClick={handleSwitch}>Customer</label>
-    <label for="driver" onClick={handleSwitch}>Driver</label>
+    <input type="radio" id="customer" name="switchPlan" value="Customer"  />
+    <input type="radio" id="driver" name="switchPlan" value="Driver"  />
+    <label for="customer" onClick={(e)=>{handleSwitch('customer')}}>Customer</label>
+    <label for="driver" onClick={(e)=>{handleSwitch('driver')}}>Driver</label>
     <div class="switch-wrapper">
       <div class="switch">
-        <div>Customer</div>
+        <div>Custom</div>
         <div>Driver</div>
       </div>
     </div>

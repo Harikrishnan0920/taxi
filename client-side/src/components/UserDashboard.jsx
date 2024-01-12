@@ -6,12 +6,16 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
+import ChatBox from '../common/Chat';
+import { fetchUserDetails } from '../common/commonFuntions';
 
 const UserDashboard = () => {
   const [value, setValue] = useState("")
   const [originPlaces, setOriginPlaces] = useState([])
   const [time, changeTime] = useState('10:00');
   const [destinationPlaces, setDestinationPlaces] = useState([])
+  const [booked,setBooked]=useState(false)
+  const [userData,SetUserData]=useState([])
   const [bookingInfo, setBookingInfo] = useState({
     origin: '',
     destination: '',
@@ -27,6 +31,11 @@ const UserDashboard = () => {
       [name]: value,
     }));
   };
+console.log(userData)
+  useEffect(()=>{
+fetchUserDetails(SetUserData)
+  },[])
+
 
 
   const debounce = (func) => {
@@ -37,7 +46,7 @@ const UserDashboard = () => {
       timer = setTimeout(() => {
         timer = null;
         func.apply(context, args);
-      }, 3000);
+      }, 2000);
     };
   };
 
@@ -197,8 +206,7 @@ Navigate("/")
         </div>
       </div>
       {waitTime&&<div className='messageBox'>
-      <div className='message'>Let's wait till we get a ride!</div>
-  <div className='lightmessage'>No user have arived</div>
+    <ChatBox roomId={userData[0]?._id} booked={booked} setBooked={setBooked} />
   {/* Add more message divs as needed */}
 </div>}
 </div>

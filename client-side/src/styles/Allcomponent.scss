@@ -1089,3 +1089,22 @@ padding: 10px;
     transform:translateY(-20px);
   }
 }
+
+.CustomersContainer{
+  overflow: scroll;
+  width: 500px;
+  position: absolute;
+  right: 205px;
+  bottom: -13px;
+
+}
+
+.C-list{
+  background-color: burlywood;
+  border: solid black;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  padding: 40px;
+}

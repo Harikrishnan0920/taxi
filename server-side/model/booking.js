@@ -19,6 +19,9 @@ const BookingInfoSchema = new mongoose.Schema({
      type:String,
       required: true,
     },
+    bookedby:{
+      type:String,
+    }
   });
   
   const BookingInfo = mongoose.model('BookingInfo', BookingInfoSchema);
