@@ -174,11 +174,11 @@ Router.get('/bookedorgins', async (req, res) => {
   
   Router.put('/updateBooking/:userId', async (req, res) => {
     try {
-      const userId = req.params.bookingId;
+      const userId = req.params.userId;
       const { bookedby } = req.body;
   
       // Find the booking by ID
-      const booking = await BookingInfo.findOne(userId);
+      const booking = await BookingInfo.findOne({ userId, cancelled: { $ne: 'yes' } });
 
       if (!booking) {
         return res.status(404).json({ error: 'Booking not found' });

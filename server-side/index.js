@@ -56,6 +56,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
+    io.emit('Booking cancelled', 'A user has disconnected');
     console.log("A user disconnected");
   });
 });

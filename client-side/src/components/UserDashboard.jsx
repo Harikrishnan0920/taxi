@@ -21,7 +21,7 @@ const UserDashboard = () => {
     destination: '',
     pickupTime: '',
   });
-
+ const [bookedby,setBookedby]=useState("")
   const Navigate = useNavigate();
   const [waitTime, setWaittime] = useState(false)
   const handleInputChange = (event) => {
@@ -33,9 +33,22 @@ const UserDashboard = () => {
   };
 console.log(userData)
   useEffect(()=>{
-fetchUserDetails(SetUserData)
+fetchUserDetails(setuserDatasFetch)
   },[])
+let setuserDatasFetch=(Fetched)=>{
+  SetUserData(Fetched)
+  const firstBooking = Fetched?.[1]?.[0];
 
+  setBookingInfo({
+    origin: firstBooking?.orgin || '',
+    destination: firstBooking?.destination || '',
+    pickupTime: firstBooking?.pickupTime || '',
+  });
+  setBookedby(firstBooking.bookedby)
+console.log(Fetched)
+
+
+}
 
 
   const debounce = (func) => {
@@ -218,13 +231,13 @@ Navigate("/")
          </div>
 
          <div className='col-md-12 justify_content_center displayFlex p-3'> 
-         {userData[1]?.length==0?<button className=''onClick={handleBookNow}>Book now</button>:<div>Booking on Process...</div>}
+         {userData[1]?.length==0?<button className=''onClick={handleBookNow}>Book now</button>:<div>Booking on Process...{bookedby}</div>}
          </div>
         </div>
       </div>
 
       {userData?.[1]?.length!=0?<div className='messageBox'>
-    <ChatBox roomId={userData[0]?._id} booked={booked} setBooked={setBooked} handleDeleteCustomer={handleDelete} />
+    <ChatBox roomId={userData[0]?._id} booked={booked} setBooked={setBooked} handleDeleteCustomer={handleDelete} setuserDatasFetch={setuserDatasFetch} />
   {/* Add more message divs as needed */}
 </div>:<></>}
 </div>
