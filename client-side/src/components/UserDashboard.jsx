@@ -21,6 +21,8 @@ const UserDashboard = () => {
     destination: '',
     pickupTime: '',
   });
+  const [driverid,setDriverId]=useState("")
+  const [amount,setAmount]=useState("")
  const [bookedby,setBookedby]=useState("")
   const Navigate = useNavigate();
   const [waitTime, setWaittime] = useState(false)
@@ -35,16 +37,23 @@ console.log(userData)
   useEffect(()=>{
 fetchUserDetails(setuserDatasFetch)
   },[])
-let setuserDatasFetch=(Fetched)=>{
+
+
+
+  let setuserDatasFetch=(Fetched)=>{
   SetUserData(Fetched)
   const firstBooking = Fetched?.[1]?.[0];
-
+  setDriverId("")
+  setAmount("")
+  
   setBookingInfo({
     origin: firstBooking?.orgin || '',
     destination: firstBooking?.destination || '',
     pickupTime: firstBooking?.pickupTime || '',
   });
-  setBookedby(firstBooking.bookedby)
+  setBookedby(firstBooking?.bookedby)
+  setDriverId(firstBooking?.bookedby?.split(" ")[10])
+  setAmount(firstBooking?.bookedby?.split(" ")[5])
 console.log(Fetched)
 
 
@@ -160,7 +169,6 @@ Navigate("/")
 
 
 
-
   console.warn(userData)
   return <div className='user_dashboard'>
 <div className="container">
@@ -237,7 +245,7 @@ Navigate("/")
       </div>
 
       {userData?.[1]?.length!=0?<div className='messageBox'>
-    <ChatBox roomId={userData[0]?._id} booked={booked} setBooked={setBooked} handleDeleteCustomer={handleDelete} setuserDatasFetch={setuserDatasFetch} />
+    <ChatBox roomId={userData[0]?._id} booked={booked} setBooked={setBooked} handleDeleteCustomer={handleDelete} setuserDatasFetch={setuserDatasFetch} amount={amount} Driverid={driverid} />
   {/* Add more message divs as needed */}
 </div>:<></>}
 </div>

@@ -9,7 +9,7 @@ const Login = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [show, setShow] = useState(false)
-   const [switcher,setSwitch]=useState("")
+   const [switcher,setSwitch]=useState("customer")
    const Navigate = useNavigate();
 
 
@@ -62,13 +62,13 @@ console.log('sd',switcher)
 
     <div className="p-3">
     <div class="switches-container" >
-    <input type="radio" id="customer" name="switchPlan" value="Customer"  />
+    <input type="radio" defaultChecked id="customer" name="switchPlan" value="Customer"  />
     <input type="radio" id="driver" name="switchPlan" value="Driver"  />
-    <label for="customer" onClick={(e)=>{handleSwitch('customer')}}>Customer</label>
-    <label for="driver" onClick={(e)=>{handleSwitch('driver')}}>Driver</label>
+    <label for="customer"  value="customer" onClick={(e)=>{handleSwitch('customer')}}>Customer</label>
+    <label for="driver"  value="driver" onClick={(e)=>{handleSwitch('driver')}}>Driver</label>
     <div class="switch-wrapper">
       <div class="switch">
-        <div>Custom</div>
+        <div>Customer</div>
         <div>Driver</div>
       </div>
     </div>

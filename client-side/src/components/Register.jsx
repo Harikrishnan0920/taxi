@@ -83,14 +83,14 @@ const Register = () => {
 
     <div className="p-3">
     <div class="switches-container" >
-    <input type="radio" id="driver" name="switchPlan" value="Driver" checked/>
-    <input type="radio" id="customer" name="switchPlan" value="Customer"  checked/>
-    <label for="driver" onClick={handleSwitch}>Driver</label>
-    <label for="customer" onClick={handleSwitch}>Customer</label>
+    <input type="radio" defaultChecked id="customer" name="switchPlan" value="Customer"  />
+    <input type="radio" id="driver" name="switchPlan" value="Driver"  />
+    <label for="customer"  value="customer" onClick={(e)=>{handleSwitch('customer')}}>Customer</label>
+    <label for="driver"  value="driver" onClick={(e)=>{handleSwitch('driver')}}>Driver</label>
     <div class="switch-wrapper">
       <div class="switch">
-        <div>Driver</div>
         <div>Customer</div>
+        <div>Driver</div>
       </div>
     </div>
   </div>

@@ -55,6 +55,19 @@ io.on("connection", (socket) => {
     io.to(data.roomId).emit("message", data);
   });
 
+  socket.on("negotiate",(data)=>{
+    console.log("prise",data)
+
+    io.to(data.roomId).emit("negotiate",data);
+  })
+
+  socket.on("confirmbooking",(data)=>{
+    console.log("confirm",data)
+
+    io.to(data.roomId).emit("confirmbooking",data);
+  })
+
+
   socket.on("disconnect", () => {
     io.emit('Booking cancelled', 'A user has disconnected');
     console.log("A user disconnected");
