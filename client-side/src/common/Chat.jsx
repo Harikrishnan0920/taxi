@@ -57,7 +57,7 @@ const receiptContent = `
   <div>
     <h2>Receipt</h2>
     <p>Transaction Date: ${new Date().toLocaleDateString()}</p>
-    <p>Amount Paid: $${amount}</p>
+    <p>Amount Paid: $${finalPayment}</p>
     <p>Driver ID: ${Driverid}</p>
     <p>Payment Method: Cash</p>
   </div>
