@@ -4,6 +4,9 @@ import axios from "axios";
 import UserBookingCard from './UserBookingCard';
 import { fetchUserDetails } from '../common/commonFuntions';
 import withAuth from '../common/withauth';
+import ChatBox from '../common/Chat';
+import Modal from 'react-modal';
+import { useNavigate } from "react-router-dom";
 
 const DriverDashboard = () => {
   
@@ -16,7 +19,8 @@ const DriverDashboard = () => {
   const [customers,setCustomers]=useState(null)
   const [currentorgin,setCurrentorgin]=useState(null)
   const [userData,SetUserData]=useState([])
-
+  const[openChat,setOpen]=useState(false)
+  const [records,setRecords]=useState([])
  const AvailableBookingFrom=async ()=>{
     await axios.get(Api_url+'/bookedorgins')
     .then((response) =>{
@@ -33,7 +37,7 @@ const DriverDashboard = () => {
  
   setSelectedUser(user);
 };
-
+const Navigate = useNavigate();
 const handlePickupTimeAccepted = () => {
   // Clear the selected user when pick-up time is accepted
   setSelectedUser(null);
@@ -47,8 +51,23 @@ console.log(userData)
 
  useEffect(()=>{
   AvailableBookingFrom()
-  fetchUserDetails(SetUserData)
+  fetchUserDetails(setdriverData)
  },[])
+
+ const setdriverData=(data)=>{
+ debugger 
+SetUserData(data)
+console.log(data)
+if(data[0].isbusy=="true"){
+setOpen(true)
+}
+}
+
+let  logout=()=>{
+  sessionStorage.clear();
+  Navigate("/login")}
+
+
   const handleSearch = (e) => {
     const searchTerm = e.target.value.toLowerCase();
     setSearchInput(searchTerm);
@@ -64,6 +83,9 @@ console.log(userData)
     
   };
   
+
+
+
   let Viewcustomers=async(origin)=>{
     setCurrentorgin(origin)
     await axios.get(Api_url+'/usersByOrigin/'+origin)
@@ -74,9 +96,11 @@ console.log(userData)
     
   })
   .catch((error) => console.error(error));
-      }
+  }
 
-
+  
+    
+  
   console.warn(customers)
   return (
     <div className='user_dashboard'>
@@ -150,7 +174,16 @@ console.log(userData)
     )}
 </div>
   </div>
+
+  <Modal
+        isOpen={openChat}
+      
+        contentLabel="Chat Modal"
+      ><div><ChatBox  roomId={userData[0]?.["passengerid"]} driverData={userData[0]} amount={userData[0]?.amount} setdriverData={setdriverData} logged={true }/></div>
+</Modal>
     </div>
+
+
    
   </div>
   )

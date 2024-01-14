@@ -11,7 +11,7 @@ const Login = () => {
     const [show, setShow] = useState(false)
    const [switcher,setSwitch]=useState("customer")
    const Navigate = useNavigate();
-
+                                                                                                                                                                          
 
     const handlePassword = () => {
         setShowPassword(!showPassword);

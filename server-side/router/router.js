@@ -66,7 +66,7 @@ if(userRecord.role!==role){
 
 let token= await generatedtoken(userRecord.id)
 console.log(token)
-return res.json({message:'log in successful',statusCode:200,token:token,userid:userRecord.id})
+return res.json({message:'log in successful',statusCode:200,token:token,userid:userRecord.id,userRecord})
 
     
 }
@@ -118,7 +118,7 @@ Router.get('/bookedorgins', async (req, res) => {
     try {
       const { origin } = req.params;
   
-      const bookings = await BookingInfo.find({ orgin:origin,cancelled:{$ne:'yes'}, bookedby: { $exists: false } });
+      const bookings = await BookingInfo.find({ orgin:origin,cancelled:{$ne:'yes'},  });
   
       const userIds = bookings.map((booking) => booking.userId);
   
@@ -172,21 +172,26 @@ Router.get('/bookedorgins', async (req, res) => {
   });
   
   
-  Router.put('/updateBooking/:userId', async (req, res) => {
+  Router.put('/updateBooking/:userId', async (req, res) => {//driver
     try {
       const userId = req.params.userId;
-      const { bookedby } = req.body;
+      const { bookedby,Username,driverid } = req.body;
   
       // Find the booking by ID
       const booking = await BookingInfo.findOne({ userId, cancelled: { $ne: 'yes' } });
 
+      if(!bookedby){
+        const userUpdateResult = await updateUserDataToNull(driverid);
+    }    
+  
       if (!booking) {
         return res.status(404).json({ error: 'Booking not found' });
       }
   
       // Update the bookedby field
       booking.bookedby = bookedby;
-  
+
+      
       // Save the updated booking
       const updatedBooking = await booking.save();
   
@@ -200,11 +205,12 @@ Router.get('/bookedorgins', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-  
 
- Router.put('/updatecancel/:bookingId', async (req, res) => {
+
+ Router.post('/updatecancel/:bookingId', async (req, res) => {// booking cancellor
     try {
       const userId = req.params.bookingId;
+      const {driverid}=req.body
   
       // Find the booking by ID
       const booking = await BookingInfo.findOne({
@@ -218,7 +224,9 @@ Router.get('/bookedorgins', async (req, res) => {
   
       // Update the bookedby field
       booking.cancelled = 'yes';
-  
+      const drivercancelled=await updateUserDataToNull(driverid)
+      
+
       // Save the updated booking
       const updatedBooking = await booking.save();
   
@@ -233,7 +241,72 @@ Router.get('/bookedorgins', async (req, res) => {
     }
   });
   
+  
+  // API route to save isbusy, passengerid, and amount in the users collection
+  Router.post('/savePassengerData', async (req, res) => {
+    try {
+      const { userId, isbusy, passengerid, amount } = req.body;
+  
+      // Find the user by userId
+      const Passenger = await user.findById(userId);
+  
+      if (!Passenger) {
+        return res.status(404).json({ message: 'User not found', statusCode: 404 });
+      }
+  
+      // Update the user fields
+      Passenger.isbusy = isbusy;
+      Passenger.passengerid = passengerid;
+      Passenger.amount = amount;
+  
+      // Save the updated user
+      await Passenger.save();
+  
+      res.status(200).json({ message: 'User data saved successfully', statusCode: 200 });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+  
+  // API route to update isbusy, passengerid, and amount to nulls
+  Router.post('/updateUserDataToNull', async (req, res) => {
+    try {
+      const { userId } = req.body;
+     await updateUserDataToNull(userId)
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+  
 
+  //functions
+  const updateUserDataToNull = async (userId) => {
+    try {
+      // Find the user by userId
+      const driver = await user.findOne({ _id: userId });
+
+if (!driver) {
+  return { success: false, message: 'User not found', statusCode: 404 };
+}
+
+// Update the user fields to null
+driver.isbusy = null;
+driver.passengerid = null;
+driver.amount = null;
+
+// Save the updated user
+await driver.save();
+  
+      return { success: true, message: 'Driver data updated to null successfully', statusCode: 200 };
+    } catch (error) {
+      console.error(error);
+      return { success: false, message: 'Internal Server Error', statusCode: 500 };
+    }
+  };
+  
+  
 
 
 
