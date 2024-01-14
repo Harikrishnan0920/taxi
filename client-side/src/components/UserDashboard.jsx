@@ -8,6 +8,7 @@ import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 import ChatBox from '../common/Chat';
 import { fetchUserDetails } from '../common/commonFuntions';
+import Modal from 'react-modal';
 
 const UserDashboard = () => {
   const [value, setValue] = useState("")
@@ -242,12 +243,18 @@ Navigate("/")
          {userData[1]?.length==0?<button className=''onClick={handleBookNow}>Book now</button>:<div>Booking on Process...{bookedby??"Waiting for taxi"}</div>}
          </div>
         </div>
-      </div>
 
-      {userData?.[1]?.length!=0?<div className='messageBox'>
+      </div>
+      <Modal
+        isOpen={userData?.[1]?.length!=0}
+        contentLabel="Chat Modal"
+
+
+      >
+
     <ChatBox roomId={userData[0]?._id} booked={booked} setBooked={setBooked} handleDeleteCustomer={handleDelete} setuserDatasFetch={setuserDatasFetch} amount={amount} Driverid={driverid} />
   {/* Add more message divs as needed */}
-</div>:<></>}
+  </Modal>
 </div>
     </div>
   
