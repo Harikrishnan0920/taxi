@@ -79,48 +79,80 @@ console.log(userData)
 
   console.warn(customers)
   return (
-    <div className='dashboard'>
-       <div>
-      <input
-        type="text"
-        placeholder="Search locations..."
-        value={searchInput}
-        onChange={handleSearch}
-      />
-      <div>
-        {places&&places.map((div) => (
-          <div className='drop-box' key={div}>
-            <p onClick={()=>{setSearchInput(div)}}>{div}</p>
-          </div>
-        ))}
-      </div><button onClick={()=>{Viewcustomers(searchInput)}}>View Customers</button>
+    <div className='user_dashboard'>
+    <div className="container">
+  <div className='user_dashbg'>
+  <div className='driverforms row'>
+  <div className="col-md-10">
+  <input
+      type="text"
+      placeholder="Search locations..."
+      value={searchInput}
+      onChange={handleSearch}
+    />
+  </div>
+   <div className='col-md-2'>
+<button onClick={()=>{Viewcustomers(searchInput)}}>View Customers</button>
+   </div>
 
-
-     {customers?<div>
-      <h3>Users from {currentorgin}</h3>
-   
-        <div className='CustomersContainer'>
-        {customers.map((user) => (
-          <div  className='C-list' onClick={() => handleUserClick(user)}>
-
-            <p>TravelID:{user.userId}</p>
-            <p>Destination:{user.bookingInfo.destination}</p>
-            <p>Pick Up time:{user.bookingInfo.pickupTime}</p>
-            </div>
-        ))}
-        </div>
+   <div className='col-md-6 availablelocate'>
+    <h5>Available Locations</h5>
     
-    </div>:<div className='CustomersContainer'><div className='C-list'>No Travelers in this locations</div></div>}
-    {selectedUser && (
-        <UserBookingCard
-          user={selectedUser}
-          onPickupTimeAccepted={handlePickupTimeAccepted}
-          userData={userData[0]}
-        />
-      )}
 
+    <div className='available_scroll'>
+  <label>
+    {places && places.map((div) => (
+      <div className={`addressbox ${div === searchInput ? 'active' : ''}`} key={div}>
+        <div for="" className='drop-box'>
+          <p onClick={() => { setSearchInput(div) }}>{div}</p>
+        </div>
+      </div>
+    ))}
+  </label>
+</div>
+
+       
+        
     </div>
+  
+  <div className="col-md-6 user_addressbox">
+  {customers?<div>
+    <h5>Users from {currentorgin}</h5>
+ 
+      <div className='userscroll'>
+      {customers.map((user) => (
+        <div  className='C-list' onClick={() => handleUserClick(user)}>
+
+          <p>Travel ID: <span>{user.userId}</span></p>
+          <p>Destination: <span>{user.bookingInfo.destination}</span></p>
+          <p>Pick Up time: <span>{user.bookingInfo.pickupTime}</span></p>
+          </div>
+      ))}
+      </div>
+  
+  </div>: <div className='notravellers'>No Travelers in this locations</div>}
+
+  </div>
+
+ 
+
+  </div>
+ 
+  </div>
+  <div className="row">
+  <div className="col-md-12 ">
+{selectedUser && (
+      <UserBookingCard
+        user={selectedUser}
+        onPickupTimeAccepted={handlePickupTimeAccepted}
+        userData={userData[0]}
+      />
+    )}
+</div>
+  </div>
     </div>
+   
+  </div>
   )
 }
 

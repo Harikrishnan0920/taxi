@@ -245,14 +245,9 @@ text:false
  
   console.log(firstSend);
   return (
-    <div className="chat-box">
-      <button
-        onClick={() => {
-          removeCustomer();
-        }}
-      >
-        cancel booking
-      </button>
+    <div className="chat-box row">
+   
+      <div className="col-md-12">
       <div className="messages">
         {messages.map((message, index) => (
           <div key={index}>{message.text}</div>
@@ -263,20 +258,18 @@ text:false
         value={newMessage}
         readOnly={firstSend}
         onChange={(e) => setNewMessage(e.target.value)}
+        className="chat_input_readonly"
       />
-      <button
-        onClick={() => {
-          sendMessage("initalmessage");
-        }}
-      >
-        Send
-      </button>
-      {firstSend ? "!! Click send to Confirm booking" : ""}
+      </div>
+     
+      {/* {firstSend ? "!! Click send to Confirm booking" : ""} */}
 
-      <div>
+      <div className="col-md-12 justify_content_center displayFlex mb_24">
         <span>
           <input
-            placeholder="Negotiate $"
+          type="number"
+          className="chat_input mr_10"
+            placeholder="Enter Amount"
             value={finalPayment}
             onChange={(e) => {
               SetFinalpayment(e.target.value), SetOurSide(e.target.value);
@@ -292,6 +285,7 @@ text:false
         onRequestClose={()=>{setOpenReciept(false)}}
         contentLabel="Reciept"
         style={customStylesForReciept}
+        
       >
         <ReceiptModal receiptContent={receiptContent} onClose={()=>{setOpenReciept(false)}}/>
       </Modal>
@@ -304,6 +298,7 @@ text:false
           <span>
             {ourSide ? (
               <button
+              className="negotiate_btn"
                 onClick={() => {
                   negotiateFunc();
                 }}
@@ -316,11 +311,33 @@ text:false
                   Confirmed()
                 }}
               >
-               { firstSend?"^":"Confirm to book in the amount or keep typing"}
+               { firstSend?" →":"Confirm to book in the amount or keep typing"}
               </button>
             )}
           </span>
         )}
+      </div>
+
+      <div className="col-md-12 mb_24 justify_content_center displayFlex gap_20">
+
+      <div className="">
+     <button
+        onClick={() => {
+          sendMessage("initalmessage");
+        }}
+      >
+        Confirm Booking
+      </button>
+     </div>
+    <div className="">
+    <button className="cancel_booking"
+        onClick={() => {
+          removeCustomer();
+        }}
+      >
+        Cancel booking  
+      </button>
+    </div>
       </div>
     </div>
   );
