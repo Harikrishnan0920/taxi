@@ -958,9 +958,9 @@ font-size: 14px;
   border-radius: 10px;
   padding: 30px;
   background: #ffffff;
-  height: 380px;
-  min-height: 380px;
-  max-height: 380px;
+  height: 480px;
+  min-height: 480px;
+  max-height: 480px;
   width: 100%;
 }
 .logoutbtn{
@@ -1081,6 +1081,19 @@ padding: 10px;
   transition: 0.3s ease-in-out;
 }
 
+.messageBox {
+  height: 300px;
+  min-height: 300px;
+  max-height: 300px;
+  width: 300px;
+  overflow-y: auto; /* Enable vertical scrollbar when needed */
+  border-radius: 10px;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  -webkit-animation: bounce .4s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
 
 
 
@@ -1146,6 +1159,7 @@ border-radius: 5px !important;
   min-height: 280px;
   max-height: 280px;
   overflow: scroll;
+  height: 280px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -1253,9 +1267,9 @@ font-weight: 600;
   margin-left: 10px;
 }
 .cancel_booking{
-  background:#ffffff ;
-  color: #252525;
-  border: 1px solid #D7d523;
+  background:#252525 ;
+  color: #ffffff;
+  border: 1px solid #252525;
 }
 .chat_input{
   background: unset ;
@@ -1263,6 +1277,8 @@ font-weight: 600;
   border-radius: 5px;
   padding: 10px;
 border: unset ;
+width: 772px;
+margin-right: 10px;
 background: unset;
 border: 1px solid #cccccc;
 
@@ -1287,18 +1303,38 @@ outline: unset !important;
   color: #fff;
 }
 .ReactModal__Content{
-  height: 300px;
-  min-height: 300px;
-  max-height: 300px;
+  height: 500px;
+  min-height: 500px;
+  max-height: 500px;
   width: 1080px;
- 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   margin: 0 auto;
 }
 .ReactModal__Overlay{
   background-color: rgba(30, 30, 30,0.96) !important;
   inset: unset;
 }
+
+.send_message{
+  padding: 10px;
+  background: #ffffff;
+  color: #252525;
+  font-weight: 400;
+  outline: none !important;
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+  width: 100%;
+}
+.messages{
+  font-size: 14px;
+  color: #777777;
+  background: #f5f5f5;
+  padding: 5px;
+  margin-bottom: 20px;
+  height: 200px;
+  min-height: 200px;
+  max-height: 200px;
+  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.align_end{align-items: end !important;}

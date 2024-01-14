@@ -260,8 +260,12 @@ text:false
   return (
     <div className="chat-box row">
    
-      <div className="col-md-12">
-      <div className="messages">
+     
+       <div className="col-md-9 mb_24">
+     
+     
+
+<div className="messages">
         {messages.map((message, index) => (
           <div key={index}>{message.text}</div>
         ))}
@@ -271,13 +275,24 @@ text:false
         value={newMessage}
         readOnly={firstSend}
         onChange={(e) => setNewMessage(e.target.value)}
-        className="chat_input_readonly"
+        className="send_message"
       />
       </div>
-     
-      {/* {firstSend ? "!! Click send to Confirm booking" : ""} */}
 
-      <div className="col-md-12 justify_content_center displayFlex mb_24">
+      <div className="col-md-3  align_end displayFlex mb_24">
+     <button className=""
+        onClick={() => {
+          sendMessage("initalmessage");
+        }}
+      >
+        Send Message
+      </button>
+     </div>
+    
+     
+      {firstSend ? "!! Click send to Confirm booking" : ""}
+
+      <div className="col-md-12 AlignItem_center displayFlex mb_24">
         <span>
           <input
           type="number"
@@ -298,7 +313,7 @@ text:false
         onRequestClose={()=>{setOpenReciept(false)}}
         contentLabel="Reciept"
         style={customStylesForReciept}
-        
+        backdrop="static"
       >
         <ReceiptModal receiptContent={receiptContent} onClose={()=>{setOpenReciept(false)}}/>
       </Modal>
@@ -331,17 +346,9 @@ text:false
         )}
       </div>
 
-      <div className="col-md-12 mb_24 justify_content_center displayFlex gap_20">
+      <div className="col-md-12 mb_24  displayFlex gap_20">
 
-      <div className="">
-     <button
-        onClick={() => {
-          sendMessage("initalmessage");
-        }}
-      >
-        Confirm Booking
-      </button>
-     </div>
+     
     <div className="">
     <button className="cancel_booking"
         onClick={() => {

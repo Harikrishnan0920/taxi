@@ -107,6 +107,11 @@ let  logout=()=>{
     <div className="container">
   <div className='user_dashbg'>
   <div className='driverforms row'>
+    <div className="col-md-12">
+    <div className='displayFlex justify_content_end'>
+<button className='logoutbtn' onClick={()=>{logOut()}}> Logout</button>
+</div>
+    </div>
   <div className="col-md-10">
   <input
       type="text"
