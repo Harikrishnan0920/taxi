@@ -4,6 +4,8 @@ import { Api_url } from "./env_variable";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { fetchUserDetails } from "./commonFuntions";
+import Modal from 'react-modal';
+import ReceiptModal from "../components/Reciept";
 
 const ChatBox = ({
   roomId,
@@ -23,7 +25,40 @@ const ChatBox = ({
   const [firstSend, setFirstSend] = useState(firstmessage ? true : false);
   const [finalPayment, SetFinalpayment] = useState(amount??null);
   const [ourSide, SetOurSide] = useState();
-  let confirmedBooking = false;
+  const [confirm,setConfirm]=useState()
+  const [openReciept,setOpenReciept]=useState(true)
+  
+
+useEffect(()=>{
+  if(!driverData ){
+
+SetFinalpayment(amount)
+  
+ let onAride= localStorage.getItem("booked")
+ console.log(onAride)
+  if(onAride?.includes(roomId)){
+    setConfirm(true)
+  }
+  }
+},[amount])
+
+const customStylesForReciept = {
+  content: {
+    width: '50%',
+    height: '50%', 
+    margin: 'auto', 
+  },
+};
+
+const receiptContent = `
+  <div>
+    <h2>Receipt</h2>
+    <p>Transaction Date: ${new Date().toLocaleDateString()}</p>
+    <p>Amount Paid: $${amount}</p>
+    <p>Driver ID: ${Driverid}</p>
+    <p>Payment Method: Cash</p>
+  </div>
+`;
 
   useEffect(() => {
     let newSocket = io("http://localhost:8000");
@@ -35,13 +70,21 @@ const ChatBox = ({
 
     newSocket.on("message", (data) => {
       console.log("Received message:", data);
-
+      debugger
       if (
-        booked == false &&
+        !booked  &&
         data?.text?.includes("Booking accepted with amount")
       ) {
-        setBooked(true);
-        updateBooking(data.text);
+        if(booked){ setBooked(true);
+          updateBooking(data.text);
+        }else{
+        updateBooking(data.text,"bookthis");
+        }
+      }
+      if(!driverData&&data.text.includes("**Driver Cancelled Booking**")){
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000);
       }
       setMessages((prevMessages) => [...prevMessages, data]);
     });
@@ -60,9 +103,15 @@ const ChatBox = ({
     newSocket.on("confirmbooking",(confirm)=>{
     console.log(confirm)
     if(confirm.text==true){
-
+      setConfirm(true)
       sides=="D"?localStorage.setItem(`booked`,roomId+","+driverData?._id,):localStorage.setItem("booked",roomId+","+Driverid)
-    }else{
+      }else{
+      if(sides=="D"){
+        toast.success("Travel Completed")
+        setTimeout(() => {
+          window.location.reload()
+        }, 3000);
+      }
       localStorage.clear()
     }
     })
@@ -85,6 +134,7 @@ const ChatBox = ({
 
   const sendMessage = (initial, cancelMessage) => {
     // Send a message to the server
+    debugger
     if (socket) {
       socket.emit("message", {
         roomId,
@@ -92,10 +142,11 @@ const ChatBox = ({
           ? cancelMessage
           : driverData
           ? "Driver: " + newMessage
-          : "Passenger " + newMessage,
+          : "Passenger: " + newMessage,
       });
       // Clear the input field
       if(firstSend && amount) negotiateFunc()
+      if(initial=="Driverquit") updateBooking(null, "cancel");
       if (firstSend && initial == "initalmessage") setFirstSend(false);
       setNewMessage("");
     }
@@ -123,7 +174,8 @@ text:true
 
   };
 
-  const updateBooking = async (bookedby, fromDriver) => {
+  const updateBooking = async (bookedby, fromDriver,tripcomplete) => {
+    debugger
     try {
       const response = await axios.put(
         `${Api_url}/updateBooking/${
@@ -135,7 +187,7 @@ text:true
       );
 
       if (response.data.statusCode == 200) {
-        if (fromDriver) {
+        if (fromDriver=="cancel") {
           setModalOpen(false);
           window.location.reload();
           return;
@@ -144,47 +196,53 @@ text:true
       }
       console.log(response.data.message);
     } catch (error) {
-      if (fromDriver) {
+      if (fromDriver=="cancel") {
         setModalOpen(false);
         window.location.reload();
         return;
+      }
+      if(tripcomplete){
+        fetchUserDetails()
       }
       console.error("Error updating booking:", error);
     }
   };
 
-  let removeCustomer = async () => {
+  let removeCustomer = async (Tc) => {
+    debugger
     if (driverData) {
-      updateBooking(null, "cancel");
+      sendMessage("Driverquit","**Driver Cancelled Booking**")
+  
       return;
     }
 
     setBooked(false);
-    // Send the message
+    if(!Tc){
     sendMessage("Userquit", "**Customer Cancelled Booking**");
+    }
+    handleDeleteCustomer()
+    updateBooking(null)
 
-    // After the message is sent, delete the customer
+
   };
  
 
   let travelComplete=()=>{
+setConfirm(false)
       socket.emit("confirmbooking",{
 roomId,
-text:true
-
+text:false
   })
 
+  toast.success("Thank you , Book again for Quick rides")
+  setTimeout(() => {
+
+    setMessages([])
+    removeCustomer("Travel complete")
+  }, 3000);
   }
 
-  let checkConfirmed=()=>{
-   let check=localStorage.getItem(booked)
-  if(driverData){
-  return  check?.includes(driverData._id)
-  }else{
-    return check?.includes(roomId)
-  }
-  
-  }
+ 
   console.log(firstSend);
   return (
     <div className="chat-box">
@@ -225,8 +283,23 @@ text:true
             }}
           ></input>
         </span>
-        {checkConfirmed() ? (
-          <button onClick={()=>{travelComplete()}}>CAB BOOKED</button>
+        {confirm ? (
+          <div>
+         { !driverData?
+         <div>
+       <Modal
+        isOpen={openReciept}
+        onRequestClose={()=>{setOpenReciept(false)}}
+        contentLabel="Reciept"
+        style={customStylesForReciept}
+      >
+        <ReceiptModal receiptContent={receiptContent} onClose={()=>{setOpenReciept(false)}}/>
+      </Modal>
+         <button onClick={()=>{travelComplete()}}>CAB BOOKED ,click when the ride ends</button>
+         </div>
+         :
+          <div>On trip </div>}
+           </div>
         ) : (
           <span>
             {ourSide ? (
@@ -243,7 +316,7 @@ text:true
                   Confirmed()
                 }}
               >
-                Confirm to book in the amount or keep typing
+               { firstSend?"^":"Confirm to book in the amount or keep typing"}
               </button>
             )}
           </span>

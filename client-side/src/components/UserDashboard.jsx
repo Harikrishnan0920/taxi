@@ -239,7 +239,7 @@ Navigate("/")
          </div>
 
          <div className='col-md-12 justify_content_center displayFlex p-3'> 
-         {userData[1]?.length==0?<button className=''onClick={handleBookNow}>Book now</button>:<div>Booking on Process...{bookedby}</div>}
+         {userData[1]?.length==0?<button className=''onClick={handleBookNow}>Book now</button>:<div>Booking on Process...{bookedby??"Waiting for taxi"}</div>}
          </div>
         </div>
       </div>

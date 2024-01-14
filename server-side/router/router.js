@@ -118,7 +118,7 @@ Router.get('/bookedorgins', async (req, res) => {
     try {
       const { origin } = req.params;
   
-      const bookings = await BookingInfo.find({ orgin:origin });
+      const bookings = await BookingInfo.find({ orgin:origin,cancelled:{$ne:'yes'}, bookedby: { $exists: false } });
   
       const userIds = bookings.map((booking) => booking.userId);
   

@@ -194,7 +194,6 @@ console.log('sd',switcher)
                 </div> */}
                 <div className="col-12 text-end">
                   {" "}
-                  <Link to="/forgotPassword">Forgot Password ?</Link>
                 </div>
               </div>
   
