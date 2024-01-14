@@ -146,7 +146,7 @@ console.log(Fetched)
 const handleDelete = async () => {
   try {
 
-    await axios.put(`${Api_url}/updatecancel/${userData[0]?._id}`).then((res)=>{
+    await axios.post(`${Api_url}/updatecancel/${userData[0]?._id}` ,{driverid}).then((res)=>{
      if(res.data.statusCode==200){
       fetchUserDetails(SetUserData)
      } else if(res.data.statusCode==404){

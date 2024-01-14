@@ -6,6 +6,7 @@ import axios from "axios";
 import { fetchUserDetails } from "./commonFuntions";
 import Modal from 'react-modal';
 import ReceiptModal from "../components/Reciept";
+import { useNavigate } from "react-router-dom";
 
 const ChatBox = ({
   roomId,
@@ -14,10 +15,12 @@ const ChatBox = ({
   setBooked,
   driverData,
   handleDeleteCustomer,
-  setModalOpen,
   setuserDatasFetch,
   amount,//is in bookedby put a loop and take it out 
-  Driverid
+  Driverid,
+  savepassengerDetails,
+  logged,
+  setdriverData
 }) => {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -27,7 +30,7 @@ const ChatBox = ({
   const [ourSide, SetOurSide] = useState();
   const [confirm,setConfirm]=useState()
   const [openReciept,setOpenReciept]=useState(true)
-  
+  const Navigate = useNavigate();
 
 useEffect(()=>{
   if(!driverData ){
@@ -75,6 +78,9 @@ const receiptContent = `
         !booked  &&
         data?.text?.includes("Booking accepted with amount")
       ) {
+        if(driverData){
+        savepassengerDetails()
+        }
         if(booked){ setBooked(true);
           updateBooking(data.text);
         }else{
@@ -109,6 +115,8 @@ const receiptContent = `
       if(sides=="D"){
         toast.success("Travel Completed")
         setTimeout(() => {
+          
+      
           window.location.reload()
         }, 3000);
       }
@@ -183,21 +191,26 @@ text:true
         }`,
         {
           bookedby: bookedby,
+          Username:fromDriver?"driver":"customer",
+          driverid:fromDriver?sessionStorage.getItem("uID"):roomId
         }
       );
 
       if (response.data.statusCode == 200) {
         if (fromDriver=="cancel") {
-          setModalOpen(false);
+          
           window.location.reload();
           return;
+          
         }
         fetchUserDetails(setuserDatasFetch);
       }
       console.log(response.data.message);
     } catch (error) {
       if (fromDriver=="cancel") {
-        setModalOpen(false);
+        
+        
+        
         window.location.reload();
         return;
       }

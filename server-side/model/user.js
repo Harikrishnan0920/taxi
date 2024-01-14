@@ -9,7 +9,10 @@ const Users = new mongoose.Schema({
     role: { type: String, enum: ["customer", "driver"], default: "customer" },
     Vehicleno:{
       type:String,
-  }
+  },
+  isbusy:{type:String},
+  passengerid:{type:String},
+  amount:{type:String}
   });
 
 
