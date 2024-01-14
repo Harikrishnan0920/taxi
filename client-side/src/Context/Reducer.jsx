@@ -1,14 +1,14 @@
 export const initialState = {
-  selectedMovie: {},
+  setdata: {},
 };
 
 export const reducer = (state, action) => {
   switch (action.type) {
-    case "SET_MOVIE":
+    case "SET_DATA":
       let data = action.payload;
       return {
         ...state,
-        selectedMovie: { ...state.selectedMovie, ...data },
+        setdata: { ...state.setdata, ...data },
       };
 
     default:

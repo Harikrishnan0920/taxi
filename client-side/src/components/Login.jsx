@@ -6,9 +6,7 @@ import { toast } from 'react-toastify';
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-    const [show, setShow] = useState(false)
    const [switcher,setSwitch]=useState("customer")
    const Navigate = useNavigate();
                                                                                                                                                                           

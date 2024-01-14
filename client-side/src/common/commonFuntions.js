@@ -5,7 +5,6 @@ export const fetchUserDetails = async (setData) => {
    let userId=sessionStorage.getItem('uID')
     try {
       const response = await axios.get(`${Api_url}/getUserDetails/${userId}`);
-      debugger
       if(response.data.statusCode==200){
         setData(response.data.data)
         return 

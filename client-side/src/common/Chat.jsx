@@ -133,15 +133,12 @@ const receiptContent = `
     if (firstSend) {
       setNewMessage(firstmessage);
       sendMessage();
-      // Update state to false after sending the first message
     }
 
-    // Clean up the socket connection when the component unmounts
     return () => newSocket.disconnect();
   }, [roomId]);
 
   const sendMessage = (initial, cancelMessage) => {
-    // Send a message to the server
     debugger
     if (socket) {
       socket.emit("message", {
@@ -164,6 +161,7 @@ const receiptContent = `
   };
 
   const negotiateFunc = () => {
+    debugger
     SetOurSide(true);
     socket.emit("negotiate", {
       roomId,
@@ -275,6 +273,7 @@ text:false
         value={newMessage}
         readOnly={firstSend}
         onChange={(e) => setNewMessage(e.target.value)}
+        placeholder="Send a text"
         className="send_message"
       />
       </div>
@@ -335,6 +334,7 @@ text:false
               </button>
             ) : (
               <button
+              disabled={firstSend}
                 onClick={() => {
                   Confirmed()
                 }}
