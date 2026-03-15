@@ -76,3 +76,6 @@ io.on("connection", (socket) => {
 });
 
 app.use("/api", routes);
+
+
+export default app;
