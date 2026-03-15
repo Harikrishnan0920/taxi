@@ -1,6 +1,7 @@
-let jwt=require("jsonwebtoken")
+import jwt from "jsonwebtoken";
 
-SECRET_KEY='ONETECH'
-let generated_token=(userid)=>jwt.sign({id:userid},process.env.SECRET_KEY,{expiresIn:'2m'})
+const SECRET_KEY = "ONETECH";
+const generated_token = (userid) =>
+  jwt.sign({ id: userid }, process.env.SECRET_KEY, { expiresIn: "2m" });
 
-module.exports=generated_token
+export default generated_token;
