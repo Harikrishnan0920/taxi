@@ -6,7 +6,7 @@ import verified from "../middleware/middle.js";
 import axios from "axios";
 import BookingInfo from "../model/booking.js";
 import mongoose from "mongoose";
-import app from "../index.js";
+import {app} from "../index.js";
 
 const Router = express.Router();
 
