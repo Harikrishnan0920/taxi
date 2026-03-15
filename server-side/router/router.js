@@ -7,7 +7,7 @@ const verified=require("../middleware/middle")
 const axios = require('axios');
 const BookingInfo = require("../model/booking")
 const mongoose=require("mongoose")
-
+const app=require("../index")
 
 app.get("/", (req, res) => {
   res.send("API running");
