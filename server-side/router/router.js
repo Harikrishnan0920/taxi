@@ -6,13 +6,8 @@ import verified from "../middleware/middle.js";
 import axios from "axios";
 import BookingInfo from "../model/booking.js";
 import mongoose from "mongoose";
-import {app} from "../index.js";
 
 const Router = express.Router();
-
-app.get("/", (req, res) => {
-  res.send("API running");
-});
 
 Router.get('/test',(req,res)=>{
 res.json({message:"api working successfully"})
@@ -312,7 +307,7 @@ await driver.save();
   };
   
   
-
-
-
-export default Router;
+  
+  
+  
+  export default Router;
