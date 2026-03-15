@@ -1,4 +1,4 @@
-const mongoose=require("mongoose")
+import mongoose from "mongoose";
 
 
 const BookingInfoSchema = new mongoose.Schema({
@@ -30,5 +30,5 @@ const BookingInfoSchema = new mongoose.Schema({
   
   const BookingInfo = mongoose.model('BookingInfo', BookingInfoSchema);
   
-  module.exports = BookingInfo;
+  export default BookingInfo;
   

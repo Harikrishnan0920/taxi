@@ -1,4 +1,4 @@
-const mongoose=require("mongoose")
+import mongoose from "mongoose";
 
 //user info model
 
@@ -27,8 +27,8 @@ const Users = new mongoose.Schema({
   });
   
 
-const usermodel=mongoose.model("users",Users)
-module.exports=usermodel;
+const usermodel = mongoose.model("users", Users);
+export default usermodel;
 
 
 

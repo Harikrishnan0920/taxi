@@ -1,5 +1,6 @@
-const jwt=require("jsonwebtoken")
-let verify=(req)=>{
+import jwt from "jsonwebtoken";
+
+const verify=(req)=>{
     console.log('222',req)
     
 let auth=req.headers.authorization
@@ -22,4 +23,4 @@ if(err){
 
 }
 
-module.exports=verify
+export default verify;
