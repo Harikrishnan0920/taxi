@@ -23,9 +23,10 @@ database.on("error", (err) => console.log(err));
 database.on("connected", () => console.log("Database connected successfully"));
 
 // Express server
-const server = app.listen(8000, () => {
-  console.log("Listening to 8000");
-});
+
+// const server = app.listen(8000, () => {
+//   console.log("Listening to 8000");
+// });
 
 
 
