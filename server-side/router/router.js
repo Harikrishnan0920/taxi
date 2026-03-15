@@ -9,6 +9,10 @@ const BookingInfo = require("../model/booking")
 const mongoose=require("mongoose")
 
 
+app.get("/", (req, res) => {
+  res.send("API running");
+});
+
 Router.get('/test',(req,res)=>{
 res.json({message:"api working successfully"})
 })
