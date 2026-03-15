@@ -6,7 +6,7 @@ import cors from "cors";
 import { Server } from "socket.io";
 
 dotenv.config();
-const app = express();
+export const app = express();
 
 app.use(express.json());
 app.use(cors());
@@ -84,5 +84,4 @@ app.listen(PORT, () => {
   console.log("Server running on port " + PORT);
 });
 
-
-export default app;
+ 
